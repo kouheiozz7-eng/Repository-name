@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tea Time</title>
+  <title>Color Flow</title>
   <style>
     :root {
-      --ink: #15211b;
-      --paper: rgba(255, 252, 241, 0.9);
-      --paper-strong: rgba(255, 252, 241, 0.96);
-      --leaf: #486b3f;
-      --tea: #9a5e2e;
-      --mint: #c7d7b5;
+      --ink: #101424;
+      --paper: rgba(255, 255, 255, 0.82);
+      --paper-strong: rgba(255, 255, 255, 0.9);
+      --accent: #3656ff;
+      --accent-strong: #c126d8;
+      --soft: #dff3ff;
     }
 
     * {
@@ -24,9 +24,59 @@
       font-family: "Hiragino Sans", "Yu Gothic", Arial, sans-serif;
       line-height: 1.6;
       color: var(--ink);
+      background: #101424;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      position: fixed;
+      inset: -20%;
+      z-index: 0;
+      content: "";
       background:
-        linear-gradient(90deg, rgba(9, 22, 18, 0.5), rgba(9, 22, 18, 0.08)),
-        url("assets/tea-background.png") center / cover fixed;
+        radial-gradient(circle at 12% 22%, rgba(255, 82, 122, 0.92), transparent 30%),
+        radial-gradient(circle at 82% 18%, rgba(73, 126, 255, 0.9), transparent 28%),
+        radial-gradient(circle at 72% 78%, rgba(62, 225, 157, 0.86), transparent 32%),
+        radial-gradient(circle at 18% 82%, rgba(255, 199, 87, 0.9), transparent 31%),
+        conic-gradient(from 120deg, #171f66, #c126d8, #ff5b77, #29c9c1, #3656ff, #171f66);
+      background-size: 120% 120%, 115% 115%, 130% 130%, 125% 125%, 100% 100%;
+      filter: saturate(1.2);
+      animation: color-drift 18s ease-in-out infinite alternate;
+    }
+
+    body::after {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      content: "";
+      background:
+        linear-gradient(120deg, rgba(16, 20, 36, 0.62), rgba(16, 20, 36, 0.08) 48%, rgba(16, 20, 36, 0.5)),
+        repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.05) 0 1px, transparent 1px 96px);
+      pointer-events: none;
+    }
+
+    header,
+    main,
+    footer {
+      position: relative;
+      z-index: 1;
+    }
+
+    @keyframes color-drift {
+      0% {
+        transform: translate3d(-4%, -2%, 0) scale(1.05) rotate(0deg);
+        background-position: 0% 20%, 90% 10%, 72% 88%, 16% 74%, center;
+      }
+
+      50% {
+        transform: translate3d(3%, 2%, 0) scale(1.12) rotate(7deg);
+        background-position: 28% 54%, 68% 32%, 42% 74%, 30% 24%, center;
+      }
+
+      100% {
+        transform: translate3d(5%, -3%, 0) scale(1.08) rotate(-5deg);
+        background-position: 62% 16%, 38% 58%, 86% 34%, 12% 42%, center;
+      }
     }
 
     header {
@@ -44,7 +94,7 @@
 
     .eyebrow {
       margin: 0 0 12px;
-      color: var(--mint);
+      color: var(--soft);
       font-size: 0.82rem;
       font-weight: 700;
       letter-spacing: 0;
@@ -85,13 +135,13 @@
       background: var(--paper);
       border: 1px solid rgba(255, 255, 255, 0.5);
       border-radius: 8px;
-      box-shadow: 0 18px 48px rgba(11, 28, 20, 0.28);
-      backdrop-filter: blur(10px);
+      box-shadow: 0 18px 48px rgba(16, 20, 36, 0.28);
+      backdrop-filter: blur(16px);
     }
 
     h2 {
       margin: 0 0 10px;
-      color: var(--leaf);
+      color: var(--accent);
       font-size: 1.25rem;
     }
 
@@ -108,22 +158,22 @@
       background: var(--paper-strong);
     }
 
-    .tea-note {
+    .color-note {
       display: grid;
       gap: 10px;
       padding: 22px;
       color: #fff;
-      background: linear-gradient(135deg, #486b3f, #9a5e2e);
+      background: linear-gradient(135deg, #3656ff, #c126d8 48%, #ff7b54);
       border-radius: 8px;
     }
 
-    .tea-note strong {
+    .color-note strong {
       display: block;
       font-size: 2rem;
       line-height: 1;
     }
 
-    .tea-note span {
+    .color-note span {
       color: rgba(255, 255, 255, 0.84);
     }
 
@@ -139,11 +189,13 @@
       text-shadow: 0 2px 10px rgba(0, 0, 0, 0.38);
     }
 
-    @media (max-width: 720px) {
-      body {
-        background-attachment: scroll;
+    @media (prefers-reduced-motion: reduce) {
+      body::before {
+        animation: none;
       }
+    }
 
+    @media (max-width: 720px) {
       header {
         min-height: 70vh;
         padding: 56px 18px 88px;
@@ -168,9 +220,9 @@
 <body>
   <header>
     <div class="hero">
-      <p class="eyebrow">Green Tea & Slow Moments</p>
-      <h1>Tea Time</h1>
-      <p>湯気の立つ一杯と、静かな余白を感じるウェブサイトです。</p>
+      <p class="eyebrow">Animated Color Background</p>
+      <h1>Color Flow</h1>
+      <p>いろんな色がゆっくり流れる、動きのあるウェブサイトです。</p>
     </div>
   </header>
 
@@ -178,18 +230,18 @@
     <div class="content">
       <section class="feature">
         <div>
-          <h2>今日のお茶</h2>
-          <p>香ばしさ、渋み、甘みのバランスを大切にした、落ち着いた時間のためのページです。</p>
+          <h2>動く背景</h2>
+          <p>赤、青、緑、黄色、紫の色面が重なりながら、画面全体でなめらかに動きます。</p>
         </div>
-        <div class="tea-note">
-          <strong>80℃</strong>
-          <span>少し冷ましたお湯で、葉の香りをゆっくり開かせます。</span>
+        <div class="color-note">
+          <strong>18s</strong>
+          <span>ゆっくりしたループで、派手すぎない動きにしています。</span>
         </div>
       </section>
 
       <section>
         <h2>About</h2>
-        <p>お茶の背景に合わせて、やわらかく読みやすいデザインにしました。</p>
+        <p>半透明のパネルを重ねて、背景が動いていても文字を読みやすくしています。</p>
       </section>
 
       <section>
@@ -200,7 +252,7 @@
   </main>
 
   <footer>
-    <small>&copy; 2026 Tea Time</small>
+    <small>&copy; 2026 Color Flow</small>
   </footer>
 </body>
 </html>
