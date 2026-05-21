@@ -162,6 +162,7 @@
       bottom: 43px;
       width: 50px;
       height: 58px;
+      z-index: 3;
       border-radius: 21px 21px 14px 14px;
       background:
         radial-gradient(circle at 28% 28%, rgba(255, 247, 226, 0.8) 0 12px, transparent 13px),
@@ -221,6 +222,7 @@
       bottom: 99px;
       width: 78px;
       height: 72px;
+      z-index: 4;
       border-radius: 52% 52% 44% 44%;
       background:
         radial-gradient(circle at 51% 83%, #f6e0b0 0 20px, transparent 21px),
@@ -434,9 +436,9 @@
     }
 
     .runner-arm {
-      bottom: 45px;
+      bottom: 30px;
       width: 56px;
-      height: 58px;
+      height: 64px;
       z-index: 2;
       animation: arm-drive 0.36s ease-in-out infinite alternate;
     }
@@ -452,7 +454,7 @@
 
     .runner-arm::before {
       position: absolute;
-      top: 1px;
+      top: 5px;
       width: 20px;
       height: 20px;
       content: "";
@@ -504,19 +506,19 @@
     }
 
     .runner-arm .limb-upper {
-      top: 10px;
+      top: 16px;
       left: 18px;
-      height: 32px;
-      transform: rotate(54deg);
+      height: 34px;
+      transform: rotate(42deg);
       transform-origin: 50% 3px;
       z-index: 2;
     }
 
     .runner-arm .limb-lower {
-      top: 36px;
-      left: 39px;
-      height: 31px;
-      transform: rotate(-64deg);
+      top: 44px;
+      left: 34px;
+      height: 32px;
+      transform: rotate(-38deg);
       transform-origin: 50% 3px;
       animation: forearm-pump 0.36s ease-in-out infinite alternate;
       z-index: 2;
@@ -524,12 +526,12 @@
 
     .runner-arm-left .limb-upper {
       left: 28px;
-      transform: rotate(-54deg);
+      transform: rotate(-42deg);
     }
 
     .runner-arm-left .limb-lower {
-      left: 8px;
-      transform: rotate(64deg);
+      left: 13px;
+      transform: rotate(38deg);
     }
 
     .runner-arm-right .limb-lower {
@@ -537,8 +539,8 @@
     }
 
     .runner-fist {
-      top: 56px;
-      left: 8px;
+      top: 68px;
+      left: 14px;
       width: 16px;
       height: 16px;
       border-radius: 50%;
@@ -546,7 +548,7 @@
     }
 
     .runner-arm-right .runner-fist {
-      left: 35px;
+      left: 29px;
     }
 
     .runner-leg .limb-upper {
@@ -578,21 +580,21 @@
 
     @keyframes arm-drive {
       from {
-        transform: rotate(-28deg) translateY(1px);
+        transform: rotate(-18deg) translateY(1px);
       }
 
       to {
-        transform: rotate(34deg) translateY(-2px);
+        transform: rotate(24deg) translateY(-2px);
       }
     }
 
     @keyframes forearm-pump {
       from {
-        transform: rotate(-78deg);
+        transform: rotate(-58deg);
       }
 
       to {
-        transform: rotate(-24deg);
+        transform: rotate(-18deg);
       }
     }
 
@@ -602,11 +604,11 @@
 
     @keyframes forearm-pump-left {
       from {
-        transform: rotate(78deg);
+        transform: rotate(58deg);
       }
 
       to {
-        transform: rotate(24deg);
+        transform: rotate(18deg);
       }
     }
 
