@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Color Flow</title>
+  <title>栗頭ランナー</title>
   <style>
     :root {
       --ink: #101424;
@@ -59,7 +59,165 @@
     main,
     footer {
       position: relative;
+      z-index: 2;
+    }
+
+    .runner-stage {
+      position: fixed;
+      inset: 0;
       z-index: 1;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .wall {
+      position: absolute;
+      bottom: 34px;
+      width: 12px;
+      height: 92px;
+      border-radius: 8px;
+      background:
+        repeating-linear-gradient(
+          0deg,
+          rgba(255, 255, 255, 0.95) 0 10px,
+          rgba(255, 210, 94, 0.95) 10px 20px
+        );
+      box-shadow: 0 8px 24px rgba(16, 20, 36, 0.28);
+      opacity: 0.82;
+    }
+
+    .wall-left {
+      left: 10px;
+    }
+
+    .wall-right {
+      right: 10px;
+    }
+
+    .runner {
+      position: absolute;
+      left: 0;
+      bottom: 36px;
+      width: 76px;
+      height: 120px;
+      transform: translate3d(24px, 0, 0);
+      transform-origin: center bottom;
+      will-change: transform;
+    }
+
+    .runner-body {
+      position: absolute;
+      left: 20px;
+      bottom: 24px;
+      width: 36px;
+      height: 42px;
+      border-radius: 18px 18px 12px 12px;
+      background: linear-gradient(160deg, #f7efe0, #d87e54 74%);
+      box-shadow: inset -7px -5px 0 rgba(132, 60, 40, 0.17);
+    }
+
+    .runner-head {
+      position: absolute;
+      left: 8px;
+      bottom: 62px;
+      width: 60px;
+      height: 58px;
+      border-radius: 52% 52% 44% 44%;
+      background:
+        radial-gradient(circle at 51% 83%, #f6e0b0 0 15px, transparent 16px),
+        linear-gradient(145deg, #7a3f1d 0%, #b66b2f 48%, #4b2413 100%);
+      box-shadow: inset -9px -8px 0 rgba(48, 20, 10, 0.18), 0 5px 18px rgba(16, 20, 36, 0.24);
+      clip-path: polygon(50% 0, 93% 30%, 90% 76%, 50% 100%, 10% 76%, 7% 30%);
+    }
+
+    .runner-head::before,
+    .runner-head::after {
+      position: absolute;
+      top: 27px;
+      width: 6px;
+      height: 8px;
+      content: "";
+      border-radius: 50%;
+      background: #22140e;
+    }
+
+    .runner-head::before {
+      left: 19px;
+    }
+
+    .runner-head::after {
+      right: 19px;
+    }
+
+    .runner-face {
+      position: absolute;
+      left: 28px;
+      top: 39px;
+      width: 7px;
+      height: 4px;
+      border-bottom: 2px solid #22140e;
+      border-radius: 0 0 10px 10px;
+    }
+
+    .runner-arm,
+    .runner-leg {
+      position: absolute;
+      background: #5a2d1b;
+      transform-origin: top center;
+    }
+
+    .runner-arm {
+      bottom: 53px;
+      width: 7px;
+      height: 31px;
+      border-radius: 9px;
+      animation: arm-swing 0.34s ease-in-out infinite alternate;
+    }
+
+    .runner-arm-left {
+      left: 16px;
+    }
+
+    .runner-arm-right {
+      right: 16px;
+      animation-delay: -0.17s;
+    }
+
+    .runner-leg {
+      bottom: 0;
+      width: 8px;
+      height: 30px;
+      border-radius: 9px;
+      animation: leg-sprint 0.3s ease-in-out infinite alternate;
+    }
+
+    .runner-leg-left {
+      left: 27px;
+    }
+
+    .runner-leg-right {
+      right: 27px;
+      animation-delay: -0.15s;
+    }
+
+    @keyframes arm-swing {
+      from {
+        transform: rotate(-34deg);
+      }
+
+      to {
+        transform: rotate(34deg);
+      }
+    }
+
+    @keyframes leg-sprint {
+      from {
+        transform: rotate(30deg);
+      }
+
+      to {
+        transform: rotate(-30deg);
+      }
     }
 
     @keyframes color-drift {
@@ -193,6 +351,11 @@
       body::before {
         animation: none;
       }
+
+      .runner-arm,
+      .runner-leg {
+        animation: none;
+      }
     }
 
     @media (max-width: 720px) {
@@ -218,11 +381,26 @@
   </style>
 </head>
 <body>
+  <div class="runner-stage" aria-hidden="true">
+    <div class="wall wall-left"></div>
+    <div class="wall wall-right"></div>
+    <div class="runner" id="runner">
+      <div class="runner-head">
+        <span class="runner-face"></span>
+      </div>
+      <div class="runner-body"></div>
+      <div class="runner-arm runner-arm-left"></div>
+      <div class="runner-arm runner-arm-right"></div>
+      <div class="runner-leg runner-leg-left"></div>
+      <div class="runner-leg runner-leg-right"></div>
+    </div>
+  </div>
+
   <header>
     <div class="hero">
       <p class="eyebrow">Animated Color Background</p>
-      <h1>Color Flow</h1>
-      <p>いろんな色がゆっくり流れる、動きのあるウェブサイトです。</p>
+      <h1>栗頭ランナー</h1>
+      <p>栗の形をした頭の人形が、壁に当たるたびに向きを変えて走り、ときどき上にジャンプします。</p>
     </div>
   </header>
 
@@ -230,29 +408,96 @@
     <div class="content">
       <section class="feature">
         <div>
-          <h2>動く背景</h2>
-          <p>赤、青、緑、黄色、紫の色面が重なりながら、画面全体でなめらかに動きます。</p>
+          <h2>壁で反転</h2>
+          <p>画面の左右にある壁へ近づくと、栗頭の人形が向きを変えて反対側へ走っていきます。</p>
         </div>
         <div class="color-note">
-          <strong>18s</strong>
-          <span>ゆっくりしたループで、派手すぎない動きにしています。</span>
+          <strong>RUN</strong>
+          <span>足と腕を振りながら、左右をずっと往復するアニメーションです。</span>
         </div>
       </section>
 
       <section>
-        <h2>About</h2>
-        <p>半透明のパネルを重ねて、背景が動いていても文字を読みやすくしています。</p>
+        <h2>たまにジャンプ</h2>
+        <p>走っている途中でランダムに跳び上がるので、毎回少し違う動きに見えます。</p>
       </section>
 
       <section>
-        <h2>Contact</h2>
-        <p>連絡先やSNSリンクをここに追加できます。</p>
+        <h2>栗の人形</h2>
+        <p>頭は栗のとがった形にして、顔と小さな体をCSSだけで描いています。</p>
       </section>
     </div>
   </main>
 
   <footer>
-    <small>&copy; 2026 Color Flow</small>
+    <small>&copy; 2026 栗頭ランナー</small>
   </footer>
+
+  <script>
+    const runner = document.getElementById("runner");
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    if (runner && !reduceMotion.matches) {
+      const state = {
+        x: 24,
+        y: 0,
+        direction: 1,
+        velocityY: 0,
+        lastTime: performance.now(),
+        nextJumpAt: performance.now() + 1200 + Math.random() * 1800
+      };
+
+      const runnerWidth = 76;
+      const sidePadding = 22;
+      const speed = 155;
+      const gravity = 1500;
+      const jumpPower = 520;
+
+      function maxX() {
+        return Math.max(sidePadding, window.innerWidth - runnerWidth - sidePadding);
+      }
+
+      function jump(now) {
+        if (state.y === 0) {
+          state.velocityY = jumpPower;
+          state.nextJumpAt = now + 1300 + Math.random() * 2600;
+        }
+      }
+
+      function animate(now) {
+        const delta = Math.min((now - state.lastTime) / 1000, 0.035);
+        state.lastTime = now;
+
+        state.x += state.direction * speed * delta;
+
+        if (state.x >= maxX()) {
+          state.x = maxX();
+          state.direction = -1;
+        } else if (state.x <= sidePadding) {
+          state.x = sidePadding;
+          state.direction = 1;
+        }
+
+        if (now >= state.nextJumpAt) {
+          jump(now);
+        }
+
+        if (state.y > 0 || state.velocityY > 0) {
+          state.velocityY -= gravity * delta;
+          state.y += state.velocityY * delta;
+
+          if (state.y <= 0) {
+            state.y = 0;
+            state.velocityY = 0;
+          }
+        }
+
+        runner.style.transform = `translate3d(${state.x}px, ${-state.y}px, 0) scaleX(${state.direction})`;
+        requestAnimationFrame(animate);
+      }
+
+      requestAnimationFrame(animate);
+    }
+  </script>
 </body>
 </html>
