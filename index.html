@@ -7,9 +7,9 @@
   <style>
     :root {
       --ink: #101424;
-      --paper: rgba(255, 255, 255, 0.82);
-      --paper-strong: rgba(255, 255, 255, 0.9);
-      --accent: #3656ff;
+      --paper: rgba(255, 255, 255, 0.84);
+      --paper-strong: rgba(255, 255, 255, 0.92);
+      --accent: #8a4bff;
       --accent-strong: #c126d8;
       --soft: #dff3ff;
     }
@@ -24,7 +24,7 @@
       font-family: "Hiragino Sans", "Yu Gothic", Arial, sans-serif;
       line-height: 1.6;
       color: var(--ink);
-      background: #101424;
+      background: #020203;
       overflow-x: hidden;
     }
 
@@ -34,14 +34,13 @@
       z-index: 0;
       content: "";
       background:
-        radial-gradient(circle at 12% 22%, rgba(255, 82, 122, 0.92), transparent 30%),
-        radial-gradient(circle at 82% 18%, rgba(73, 126, 255, 0.9), transparent 28%),
-        radial-gradient(circle at 72% 78%, rgba(62, 225, 157, 0.86), transparent 32%),
-        radial-gradient(circle at 18% 82%, rgba(255, 199, 87, 0.9), transparent 31%),
-        conic-gradient(from 120deg, #171f66, #c126d8, #ff5b77, #29c9c1, #3656ff, #171f66);
-      background-size: 120% 120%, 115% 115%, 130% 130%, 125% 125%, 100% 100%;
-      filter: saturate(1.2);
-      animation: color-drift 18s ease-in-out infinite alternate;
+        radial-gradient(circle at 18% 20%, rgba(255, 190, 78, 0.18), transparent 24%),
+        radial-gradient(circle at 84% 16%, rgba(151, 77, 255, 0.2), transparent 26%),
+        radial-gradient(circle at 72% 82%, rgba(255, 65, 50, 0.13), transparent 28%),
+        linear-gradient(180deg, #020203 0%, #07070c 48%, #000 100%);
+      background-size: 120% 120%, 110% 110%, 130% 130%, 100% 100%;
+      filter: saturate(1.08);
+      animation: color-drift 22s ease-in-out infinite alternate;
     }
 
     body::after {
@@ -50,8 +49,9 @@
       z-index: 0;
       content: "";
       background:
-        linear-gradient(120deg, rgba(16, 20, 36, 0.62), rgba(16, 20, 36, 0.08) 48%, rgba(16, 20, 36, 0.5)),
-        repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.05) 0 1px, transparent 1px 96px);
+        linear-gradient(120deg, rgba(0, 0, 0, 0.34), rgba(0, 0, 0, 0.08) 48%, rgba(0, 0, 0, 0.45)),
+        repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.045) 0 1px, transparent 1px 96px),
+        repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.035) 0 1px, transparent 1px 96px);
       pointer-events: none;
     }
 
@@ -72,13 +72,56 @@
 
     .giant-chestnut {
       position: absolute;
-      top: -180px;
-      right: min(4vw, 54px);
-      width: min(78vw, 820px);
+      top: -170px;
+      right: min(3vw, 44px);
+      width: min(72vw, 760px);
       aspect-ratio: 1;
-      opacity: 0.24;
-      filter: drop-shadow(0 24px 48px rgba(16, 20, 36, 0.34));
+      opacity: 0.2;
+      filter: drop-shadow(0 24px 48px rgba(0, 0, 0, 0.54));
       transform: rotate(8deg);
+    }
+
+    .giant-chestnut-small {
+      top: 8vh;
+      left: 5vw;
+      right: auto;
+      width: min(28vw, 260px);
+      opacity: 0.34;
+      transform: rotate(-18deg);
+    }
+
+    .giant-chestnut-mid {
+      top: 52vh;
+      left: 10vw;
+      right: auto;
+      width: min(34vw, 360px);
+      opacity: 0.26;
+      transform: rotate(16deg);
+    }
+
+    .giant-chestnut-low {
+      top: 58vh;
+      right: 8vw;
+      width: min(30vw, 310px);
+      opacity: 0.3;
+      transform: rotate(-8deg);
+    }
+
+    .giant-chestnut-tiny {
+      top: 28vh;
+      right: 42vw;
+      width: min(18vw, 170px);
+      opacity: 0.42;
+      transform: rotate(24deg);
+    }
+
+    .giant-chestnut-bottom {
+      top: 82vh;
+      left: 42vw;
+      right: auto;
+      width: min(22vw, 220px);
+      opacity: 0.24;
+      transform: rotate(-28deg);
     }
 
     .giant-chestnut-shell {
@@ -860,6 +903,36 @@
       <span class="giant-eye giant-eye-right"></span>
       <span class="giant-mouth"></span>
     </div>
+    <div class="giant-chestnut giant-chestnut-small">
+      <div class="giant-chestnut-shell"></div>
+      <span class="giant-eye giant-eye-left"></span>
+      <span class="giant-eye giant-eye-right"></span>
+      <span class="giant-mouth"></span>
+    </div>
+    <div class="giant-chestnut giant-chestnut-mid">
+      <div class="giant-chestnut-shell"></div>
+      <span class="giant-eye giant-eye-left"></span>
+      <span class="giant-eye giant-eye-right"></span>
+      <span class="giant-mouth"></span>
+    </div>
+    <div class="giant-chestnut giant-chestnut-low">
+      <div class="giant-chestnut-shell"></div>
+      <span class="giant-eye giant-eye-left"></span>
+      <span class="giant-eye giant-eye-right"></span>
+      <span class="giant-mouth"></span>
+    </div>
+    <div class="giant-chestnut giant-chestnut-tiny">
+      <div class="giant-chestnut-shell"></div>
+      <span class="giant-eye giant-eye-left"></span>
+      <span class="giant-eye giant-eye-right"></span>
+      <span class="giant-mouth"></span>
+    </div>
+    <div class="giant-chestnut giant-chestnut-bottom">
+      <div class="giant-chestnut-shell"></div>
+      <span class="giant-eye giant-eye-left"></span>
+      <span class="giant-eye giant-eye-right"></span>
+      <span class="giant-mouth"></span>
+    </div>
     <div class="wall wall-left"></div>
     <div class="wall wall-right"></div>
     <div class="runner" id="runner" data-face="happy">
@@ -903,7 +976,7 @@
     <div class="hero">
       <p class="eyebrow">Animated Color Background</p>
       <h1>栗頭ランナー</h1>
-      <p>巨大なムキムキ栗頭人形が、画面全体を超高速で飛び回り、上にも斜めにもいろんな方向へ跳ね返ります。</p>
+      <p>黒い背景のあちこちに栗の顔が浮かび、巨大なムキムキ栗頭人形が超高速で跳ね回ります。</p>
     </div>
   </header>
 
@@ -911,8 +984,8 @@
     <div class="content">
       <section class="feature">
         <div>
-          <h2>全方向バウンド</h2>
-          <p>画面の上下左右すべての端に当たると、栗頭の人形が跳ね返って別の方向へ高速で飛んでいきます。</p>
+          <h2>黒背景バウンド</h2>
+          <p>暗い画面の上下左右すべての端に当たると、栗頭の人形が跳ね返って別の方向へ高速で飛んでいきます。</p>
         </div>
         <div class="color-note">
           <strong>MAX</strong>
@@ -926,8 +999,8 @@
       </section>
 
       <section>
-        <h2>表情変化</h2>
-        <p>笑うと声が見えるくらい弾み、泣くと滝のように涙を流し、怒ると赤くなって噴火します。</p>
+        <h2>顔だらけ</h2>
+        <p>背景のいろんな場所に栗の顔を置いて、走る人形を囲むような見た目にしています。</p>
       </section>
     </div>
   </main>
