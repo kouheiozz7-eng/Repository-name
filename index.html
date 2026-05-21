@@ -175,23 +175,24 @@
     .runner-body::before,
     .runner-body::after {
       position: absolute;
-      top: 8px;
-      width: 26px;
-      height: 20px;
+      top: 5px;
+      width: 28px;
+      height: 24px;
       content: "";
       border-radius: 999px;
       background: linear-gradient(160deg, #f9d3a6, #c06041);
       box-shadow: inset -4px -3px 0 rgba(82, 36, 28, 0.18);
+      z-index: 1;
     }
 
     .runner-body::before {
-      left: -14px;
-      transform: rotate(-18deg);
+      left: -17px;
+      transform: rotate(-22deg);
     }
 
     .runner-body::after {
-      right: -14px;
-      transform: rotate(18deg);
+      right: -17px;
+      transform: rotate(22deg);
     }
 
     .runner-abs {
@@ -226,6 +227,8 @@
         linear-gradient(145deg, #7a3f1d 0%, #b66b2f 48%, #4b2413 100%);
       box-shadow: inset -9px -8px 0 rgba(48, 20, 10, 0.18), 0 5px 18px rgba(16, 20, 36, 0.24);
       clip-path: polygon(50% 0, 93% 30%, 90% 76%, 50% 100%, 10% 76%, 7% 30%);
+      overflow: visible;
+      transition: filter 0.18s ease;
     }
 
     .runner-eye {
@@ -235,6 +238,7 @@
       height: 10px;
       border-radius: 50%;
       background: #22140e;
+      z-index: 2;
     }
 
     .runner-eye-left {
@@ -254,31 +258,114 @@
       border-bottom: 3px solid #22140e;
       border-radius: 0 0 999px 999px;
       transition: transform 0.2s ease, border-radius 0.2s ease, height 0.2s ease;
+      z-index: 2;
     }
 
     .runner-tear {
       position: absolute;
-      top: 44px;
-      width: 5px;
-      height: 12px;
-      border-radius: 50% 50% 60% 60%;
-      background: #66d7ff;
+      top: 39px;
+      width: 7px;
+      height: 58px;
+      border-radius: 999px;
+      background:
+        repeating-linear-gradient(180deg, rgba(178, 239, 255, 0.1) 0 8px, rgba(255, 255, 255, 0.9) 8px 12px, rgba(10, 165, 255, 0.95) 12px 22px);
       opacity: 0;
-      transform: translateY(-4px);
+      transform: translateY(-14px) scaleY(0.2);
+      transform-origin: top center;
       transition: opacity 0.2s ease, transform 0.2s ease;
+      z-index: 4;
     }
 
     .runner-tear-left {
-      left: 23px;
+      left: 38px;
     }
 
     .runner-tear-right {
-      right: 23px;
+      left: 67px;
+    }
+
+    .runner-tear::after {
+      position: absolute;
+      left: -7px;
+      bottom: -9px;
+      width: 21px;
+      height: 11px;
+      content: "";
+      border-radius: 50%;
+      background: rgba(102, 215, 255, 0.8);
+      animation: tear-splash 0.34s ease-in-out infinite alternate;
+    }
+
+    .runner-laugh {
+      position: absolute;
+      left: 13px;
+      top: -23px;
+      color: #fff7a8;
+      font-size: 11px;
+      font-weight: 900;
+      line-height: 1;
+      text-shadow: 0 2px 5px rgba(48, 20, 10, 0.6);
+      opacity: 0;
+      transform: rotate(-12deg) translateY(6px);
+      animation: laugh-bounce 0.38s ease-in-out infinite alternate;
+      z-index: 5;
+    }
+
+    .runner-laugh-right {
+      left: auto;
+      right: 10px;
+      top: -9px;
+      transform: rotate(14deg) translateY(6px);
+      animation-delay: -0.18s;
+    }
+
+    .runner-eruption {
+      position: absolute;
+      left: 48px;
+      top: -16px;
+      width: 17px;
+      height: 24px;
+      opacity: 0;
+      filter: drop-shadow(0 0 7px rgba(255, 70, 28, 0.72));
+      z-index: 5;
+    }
+
+    .runner-eruption::before,
+    .runner-eruption::after {
+      position: absolute;
+      content: "";
+      clip-path: polygon(50% 0, 88% 74%, 54% 57%, 42% 100%, 30% 58%, 8% 74%);
+      background: linear-gradient(180deg, #ffe45c, #ff3b1f 72%, rgba(255, 59, 31, 0));
+      animation: erupt 0.24s ease-in-out infinite alternate;
+    }
+
+    .runner-eruption::before {
+      inset: 0;
+    }
+
+    .runner-eruption::after {
+      left: -10px;
+      top: 7px;
+      width: 15px;
+      height: 19px;
+      animation-delay: -0.12s;
     }
 
     .runner[data-face="happy"] .runner-mouth {
-      height: 9px;
-      border-bottom-width: 4px;
+      left: 30px;
+      top: 48px;
+      width: 20px;
+      height: 13px;
+      border-bottom-width: 5px;
+    }
+
+    .runner[data-face="happy"] .runner-head {
+      animation: head-laugh 0.34s ease-in-out infinite alternate;
+    }
+
+    .runner[data-face="happy"] .runner-laugh {
+      opacity: 1;
+      transform: rotate(-12deg) translateY(-3px);
     }
 
     .runner[data-face="cry"] .runner-eye {
@@ -297,7 +384,8 @@
 
     .runner[data-face="cry"] .runner-tear {
       opacity: 1;
-      transform: translateY(2px);
+      transform: translateY(0) scaleY(1);
+      animation: waterfall-tears 0.42s linear infinite;
     }
 
     .runner[data-face="angry"] .runner-eye {
@@ -320,6 +408,25 @@
       transform: translateY(5px);
     }
 
+    .runner[data-face="angry"] .runner-head {
+      filter: saturate(1.5) sepia(0.14) drop-shadow(0 0 12px rgba(255, 48, 28, 0.5));
+    }
+
+    .runner[data-face="angry"] .runner-head::after {
+      position: absolute;
+      inset: 9px 8px 12px;
+      content: "";
+      border-radius: 48% 48% 42% 42%;
+      background: radial-gradient(circle at 50% 48%, rgba(255, 45, 38, 0.66), rgba(255, 45, 38, 0.18) 52%, transparent 72%);
+      clip-path: polygon(50% 0, 93% 30%, 90% 76%, 50% 100%, 10% 76%, 7% 30%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .runner[data-face="angry"] .runner-eruption {
+      opacity: 1;
+    }
+
     .runner-arm,
     .runner-leg {
       position: absolute;
@@ -327,18 +434,19 @@
     }
 
     .runner-arm {
-      bottom: 76px;
-      width: 42px;
-      height: 48px;
+      bottom: 82px;
+      width: 56px;
+      height: 58px;
+      z-index: 2;
       animation: arm-drive 0.36s ease-in-out infinite alternate;
     }
 
     .runner-arm-left {
-      left: 2px;
+      left: -4px;
     }
 
     .runner-arm-right {
-      right: 2px;
+      right: -4px;
       animation-delay: -0.18s;
     }
 
@@ -376,18 +484,30 @@
     }
 
     .runner-arm .limb-upper {
-      top: 0;
-      left: 16px;
-      height: 28px;
-      transform: rotate(34deg);
+      top: 4px;
+      left: 28px;
+      height: 30px;
+      transform: rotate(46deg);
+      transform-origin: 50% 3px;
     }
 
     .runner-arm .limb-lower {
-      top: 22px;
-      left: 25px;
-      height: 30px;
-      transform: rotate(-68deg);
+      top: 28px;
+      left: 45px;
+      height: 31px;
+      transform: rotate(-76deg);
+      transform-origin: 50% 3px;
       animation: forearm-pump 0.36s ease-in-out infinite alternate;
+    }
+
+    .runner-arm-left .limb-upper {
+      left: 16px;
+      transform: rotate(-46deg);
+    }
+
+    .runner-arm-left .limb-lower {
+      left: 1px;
+      transform: rotate(76deg);
     }
 
     .runner-arm-right .limb-lower {
@@ -395,11 +515,15 @@
     }
 
     .runner-fist {
-      top: 43px;
-      left: 11px;
-      width: 14px;
-      height: 14px;
+      top: 48px;
+      left: 3px;
+      width: 16px;
+      height: 16px;
       border-radius: 50%;
+    }
+
+    .runner-arm-right .runner-fist {
+      left: 39px;
     }
 
     .runner-leg .limb-upper {
@@ -431,21 +555,35 @@
 
     @keyframes arm-drive {
       from {
-        transform: rotate(-36deg) translateY(3px);
+        transform: rotate(-32deg) translateY(2px);
       }
 
       to {
-        transform: rotate(42deg) translateY(-2px);
+        transform: rotate(38deg) translateY(-3px);
       }
     }
 
     @keyframes forearm-pump {
       from {
-        transform: rotate(-86deg);
+        transform: rotate(-92deg);
       }
 
       to {
-        transform: rotate(-34deg);
+        transform: rotate(-26deg);
+      }
+    }
+
+    .runner-arm-left .limb-lower {
+      animation-name: forearm-pump-left;
+    }
+
+    @keyframes forearm-pump-left {
+      from {
+        transform: rotate(92deg);
+      }
+
+      to {
+        transform: rotate(26deg);
       }
     }
 
@@ -466,6 +604,58 @@
 
       to {
         transform: rotate(34deg);
+      }
+    }
+
+    @keyframes waterfall-tears {
+      from {
+        background-position: 0 -18px;
+      }
+
+      to {
+        background-position: 0 18px;
+      }
+    }
+
+    @keyframes tear-splash {
+      from {
+        transform: scaleX(0.7);
+        opacity: 0.6;
+      }
+
+      to {
+        transform: scaleX(1.15);
+        opacity: 1;
+      }
+    }
+
+    @keyframes erupt {
+      from {
+        transform: translateY(5px) scaleY(0.78);
+      }
+
+      to {
+        transform: translateY(-4px) scaleY(1.18);
+      }
+    }
+
+    @keyframes laugh-bounce {
+      from {
+        transform: translateY(6px) scale(0.9) rotate(-12deg);
+      }
+
+      to {
+        transform: translateY(-4px) scale(1.08) rotate(-12deg);
+      }
+    }
+
+    @keyframes head-laugh {
+      from {
+        transform: rotate(-2deg) translateY(1px);
+      }
+
+      to {
+        transform: rotate(2deg) translateY(-2px);
       }
     }
 
@@ -604,7 +794,13 @@
       .runner-arm,
       .runner-leg,
       .runner-arm .limb-lower,
-      .runner-leg .limb-lower {
+      .runner-leg .limb-lower,
+      .runner-tear,
+      .runner-tear::after,
+      .runner-eruption::before,
+      .runner-eruption::after,
+      .runner-laugh,
+      .runner[data-face="happy"] .runner-head {
         animation: none;
       }
     }
@@ -646,9 +842,12 @@
         <span class="runner-eye runner-eye-left"></span>
         <span class="runner-eye runner-eye-right"></span>
         <span class="runner-mouth"></span>
-        <span class="runner-tear runner-tear-left"></span>
-        <span class="runner-tear runner-tear-right"></span>
       </div>
+      <span class="runner-tear runner-tear-left"></span>
+      <span class="runner-tear runner-tear-right"></span>
+      <span class="runner-laugh">HAHA</span>
+      <span class="runner-laugh runner-laugh-right">HAHA</span>
+      <span class="runner-eruption"></span>
       <div class="runner-body">
         <span class="runner-abs"></span>
       </div>
@@ -679,7 +878,7 @@
     <div class="hero">
       <p class="eyebrow">Animated Color Background</p>
       <h1>栗頭ランナー</h1>
-      <p>巨大なムキムキ栗頭人形が、壁に当たるたびに向きを変えて全力疾走し、ときどき画面上まで大ジャンプします。</p>
+      <p>巨大なムキムキ栗頭人形が、壁に当たるたびに向きを変えて全力疾走し、ときどき斜めにも大ジャンプします。</p>
     </div>
   </header>
 
@@ -692,18 +891,18 @@
         </div>
         <div class="color-note">
           <strong>MAX</strong>
-          <span>巨大化した体で、腕と足を曲げ伸ばししながら走っているようにしました。</span>
+          <span>肩から腕までつながったムキムキの体で、腕と足を曲げ伸ばししながら走ります。</span>
         </div>
       </section>
 
       <section>
         <h2>大ジャンプ</h2>
-        <p>走っている途中でランダムに画面の上の方まで跳び上がるので、動きに勢いがあります。</p>
+        <p>走っている途中でランダムに画面の上の方まで跳び上がり、たまに斜め方向にも飛びます。</p>
       </section>
 
       <section>
         <h2>表情変化</h2>
-        <p>顔は笑ったり、泣いたり、怒ったりするように切り替わります。背景にも栗の顔を大きく入れています。</p>
+        <p>笑うと声が見えるくらい弾み、泣くと滝のように涙を流し、怒ると赤くなって噴火します。</p>
       </section>
     </div>
   </main>
@@ -722,6 +921,7 @@
         y: 0,
         direction: 1,
         velocityY: 0,
+        airDrift: 0,
         lastTime: performance.now(),
         nextJumpAt: performance.now() + 1200 + Math.random() * 1800
       };
@@ -755,6 +955,7 @@
       function jump(now) {
         if (state.y === 0) {
           state.velocityY = jumpPower();
+          state.airDrift = Math.random() < 0.45 ? state.direction * (120 + Math.random() * 120) : 0;
           state.nextJumpAt = now + 1100 + Math.random() * 2300;
         }
       }
@@ -770,7 +971,7 @@
         const delta = Math.min((now - state.lastTime) / 1000, 0.035);
         state.lastTime = now;
 
-        state.x += state.direction * speed * delta;
+        state.x += (state.direction * speed + state.airDrift) * delta;
 
         if (state.x >= maxX()) {
           state.x = maxX();
@@ -791,6 +992,7 @@
           if (state.y <= 0) {
             state.y = 0;
             state.velocityY = 0;
+            state.airDrift = 0;
           }
         }
 
