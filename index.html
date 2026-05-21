@@ -903,7 +903,7 @@
     <div class="hero">
       <p class="eyebrow">Animated Color Background</p>
       <h1>栗頭ランナー</h1>
-      <p>巨大なムキムキ栗頭人形が、壁に当たるたびに向きを変えて全力疾走し、ときどき斜めにも大ジャンプします。</p>
+      <p>巨大なムキムキ栗頭人形が、画面全体をあらゆる方向へ飛び回り、端に当たるたびに跳ね返ります。</p>
     </div>
   </header>
 
@@ -911,8 +911,8 @@
     <div class="content">
       <section class="feature">
         <div>
-          <h2>壁で反転</h2>
-          <p>画面の左右にある壁へ近づくと、栗頭の人形が向きを変えて反対側へ走っていきます。</p>
+          <h2>全方向バウンド</h2>
+          <p>画面の上下左右すべての端に当たると、栗頭の人形が跳ね返って別の方向へ飛んでいきます。</p>
         </div>
         <div class="color-note">
           <strong>MAX</strong>
@@ -921,8 +921,8 @@
       </section>
 
       <section>
-        <h2>大ジャンプ</h2>
-        <p>走っている途中でランダムに画面の上の方まで跳び上がり、たまに斜め方向にも飛びます。</p>
+        <h2>斜め飛び</h2>
+        <p>一定間隔で少しだけ角度が変わるので、画面内を同じ軌道だけでなく斜めにも飛び回ります。</p>
       </section>
 
       <section>
@@ -945,10 +945,10 @@
         x: 24,
         y: 0,
         direction: 1,
-        velocityY: 0,
-        airDrift: 0,
+        velocityX: 250,
+        velocityY: 330,
         lastTime: performance.now(),
-        nextJumpAt: performance.now() + 1200 + Math.random() * 1800
+        nextDeflectAt: performance.now() + 1200 + Math.random() * 1800
       };
 
       const faces = ["happy", "cry", "angry"];
@@ -961,8 +961,9 @@
       const runnerHeight = runnerBaseHeight * runnerScale;
       const scaleOffset = (runnerWidth - runnerBaseWidth) / 2;
       const sidePadding = 16;
-      const speed = 205;
-      const gravity = 2400;
+      const topPadding = 16;
+      const minSpeed = 230;
+      const maxSpeed = 430;
 
       function minX() {
         return sidePadding + scaleOffset;
@@ -972,17 +973,24 @@
         return Math.max(minX(), window.innerWidth - runnerBaseWidth - sidePadding - scaleOffset);
       }
 
-      function jumpPower() {
-        const targetHeight = Math.max(360, window.innerHeight - runnerHeight - 36);
-        return Math.sqrt(2 * gravity * targetHeight);
+      function minY() {
+        return 0;
       }
 
-      function jump(now) {
-        if (state.y === 0) {
-          state.velocityY = jumpPower();
-          state.airDrift = Math.random() < 0.45 ? state.direction * (120 + Math.random() * 120) : 0;
-          state.nextJumpAt = now + 1100 + Math.random() * 2300;
-        }
+      function maxY() {
+        return Math.max(minY(), window.innerHeight - runnerHeight - topPadding);
+      }
+
+      function clampVelocity(value) {
+        const sign = value < 0 ? -1 : 1;
+        const magnitude = Math.min(Math.max(Math.abs(value), minSpeed), maxSpeed);
+        return sign * magnitude;
+      }
+
+      function deflect(now) {
+        state.velocityX = clampVelocity(state.velocityX + (Math.random() - 0.5) * 180);
+        state.velocityY = clampVelocity(state.velocityY + (Math.random() - 0.5) * 220);
+        state.nextDeflectAt = now + 900 + Math.random() * 1800;
       }
 
       function changeFace() {
@@ -996,31 +1004,30 @@
         const delta = Math.min((now - state.lastTime) / 1000, 0.035);
         state.lastTime = now;
 
-        state.x += (state.direction * speed + state.airDrift) * delta;
+        state.x += state.velocityX * delta;
+        state.y += state.velocityY * delta;
 
         if (state.x >= maxX()) {
           state.x = maxX();
-          state.direction = -1;
+          state.velocityX = -Math.abs(state.velocityX);
         } else if (state.x <= minX()) {
           state.x = minX();
-          state.direction = 1;
+          state.velocityX = Math.abs(state.velocityX);
         }
 
-        if (now >= state.nextJumpAt) {
-          jump(now);
+        if (state.y >= maxY()) {
+          state.y = maxY();
+          state.velocityY = -Math.abs(state.velocityY);
+        } else if (state.y <= minY()) {
+          state.y = minY();
+          state.velocityY = Math.abs(state.velocityY);
         }
 
-        if (state.y > 0 || state.velocityY > 0) {
-          state.velocityY -= gravity * delta;
-          state.y += state.velocityY * delta;
-
-          if (state.y <= 0) {
-            state.y = 0;
-            state.velocityY = 0;
-            state.airDrift = 0;
-          }
+        if (now >= state.nextDeflectAt) {
+          deflect(now);
         }
 
+        state.direction = state.velocityX < 0 ? -1 : 1;
         runner.style.transform = `translate3d(${state.x}px, ${-state.y}px, 0) scale(${runnerScale}) scaleX(${state.direction})`;
         requestAnimationFrame(animate);
       }
