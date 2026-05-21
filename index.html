@@ -70,6 +70,57 @@
       pointer-events: none;
     }
 
+    .giant-chestnut {
+      position: absolute;
+      top: -120px;
+      right: min(8vw, 90px);
+      width: min(56vw, 560px);
+      aspect-ratio: 1;
+      opacity: 0.2;
+      filter: drop-shadow(0 24px 48px rgba(16, 20, 36, 0.34));
+      transform: rotate(8deg);
+    }
+
+    .giant-chestnut-shell {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 50% 78%, rgba(246, 224, 176, 0.98) 0 23%, transparent 24%),
+        linear-gradient(145deg, #7a3f1d 0%, #be7436 48%, #3f1c0d 100%);
+      clip-path: polygon(50% 0, 95% 29%, 89% 78%, 50% 100%, 11% 78%, 5% 29%);
+    }
+
+    .giant-eye,
+    .giant-mouth {
+      position: absolute;
+      background: #21110a;
+    }
+
+    .giant-eye {
+      top: 44%;
+      width: 8%;
+      height: 11%;
+      border-radius: 50%;
+    }
+
+    .giant-eye-left {
+      left: 34%;
+    }
+
+    .giant-eye-right {
+      right: 34%;
+    }
+
+    .giant-mouth {
+      left: 42%;
+      top: 62%;
+      width: 16%;
+      height: 7%;
+      border-bottom: min(1vw, 8px) solid #21110a;
+      border-radius: 0 0 999px 999px;
+      background: transparent;
+    }
+
     .wall {
       position: absolute;
       bottom: 34px;
@@ -97,9 +148,9 @@
     .runner {
       position: absolute;
       left: 0;
-      bottom: 36px;
-      width: 76px;
-      height: 120px;
+      bottom: 28px;
+      width: 112px;
+      height: 168px;
       transform: translate3d(24px, 0, 0);
       transform-origin: center bottom;
       will-change: transform;
@@ -107,116 +158,314 @@
 
     .runner-body {
       position: absolute;
-      left: 20px;
-      bottom: 24px;
-      width: 36px;
-      height: 42px;
-      border-radius: 18px 18px 12px 12px;
-      background: linear-gradient(160deg, #f7efe0, #d87e54 74%);
-      box-shadow: inset -7px -5px 0 rgba(132, 60, 40, 0.17);
+      left: 31px;
+      bottom: 43px;
+      width: 50px;
+      height: 58px;
+      border-radius: 21px 21px 14px 14px;
+      background:
+        radial-gradient(circle at 28% 28%, rgba(255, 247, 226, 0.8) 0 12px, transparent 13px),
+        radial-gradient(circle at 72% 28%, rgba(255, 247, 226, 0.8) 0 12px, transparent 13px),
+        linear-gradient(160deg, #f1c18b 0%, #d87e54 62%, #8c3f2d 100%);
+      box-shadow:
+        inset -8px -7px 0 rgba(92, 42, 32, 0.22),
+        inset 0 -26px 0 rgba(101, 48, 37, 0.16);
+    }
+
+    .runner-body::before,
+    .runner-body::after {
+      position: absolute;
+      top: 8px;
+      width: 26px;
+      height: 20px;
+      content: "";
+      border-radius: 999px;
+      background: linear-gradient(160deg, #f9d3a6, #c06041);
+      box-shadow: inset -4px -3px 0 rgba(82, 36, 28, 0.18);
+    }
+
+    .runner-body::before {
+      left: -14px;
+      transform: rotate(-18deg);
+    }
+
+    .runner-body::after {
+      right: -14px;
+      transform: rotate(18deg);
+    }
+
+    .runner-abs {
+      position: absolute;
+      left: 18px;
+      top: 25px;
+      width: 15px;
+      height: 27px;
+      border-top: 2px solid rgba(75, 34, 24, 0.45);
+      border-bottom: 2px solid rgba(75, 34, 24, 0.45);
+    }
+
+    .runner-abs::before {
+      position: absolute;
+      left: 6px;
+      top: -2px;
+      width: 2px;
+      height: 31px;
+      content: "";
+      background: rgba(75, 34, 24, 0.38);
     }
 
     .runner-head {
       position: absolute;
-      left: 8px;
-      bottom: 62px;
-      width: 60px;
-      height: 58px;
+      left: 17px;
+      bottom: 99px;
+      width: 78px;
+      height: 72px;
       border-radius: 52% 52% 44% 44%;
       background:
-        radial-gradient(circle at 51% 83%, #f6e0b0 0 15px, transparent 16px),
+        radial-gradient(circle at 51% 83%, #f6e0b0 0 20px, transparent 21px),
         linear-gradient(145deg, #7a3f1d 0%, #b66b2f 48%, #4b2413 100%);
       box-shadow: inset -9px -8px 0 rgba(48, 20, 10, 0.18), 0 5px 18px rgba(16, 20, 36, 0.24);
       clip-path: polygon(50% 0, 93% 30%, 90% 76%, 50% 100%, 10% 76%, 7% 30%);
     }
 
-    .runner-head::before,
-    .runner-head::after {
+    .runner-eye {
       position: absolute;
-      top: 27px;
-      width: 6px;
-      height: 8px;
-      content: "";
+      top: 34px;
+      width: 8px;
+      height: 10px;
       border-radius: 50%;
       background: #22140e;
     }
 
-    .runner-head::before {
-      left: 19px;
+    .runner-eye-left {
+      left: 25px;
     }
 
-    .runner-head::after {
-      right: 19px;
+    .runner-eye-right {
+      right: 25px;
     }
 
-    .runner-face {
+    .runner-mouth {
       position: absolute;
-      left: 28px;
-      top: 39px;
-      width: 7px;
+      left: 34px;
+      top: 50px;
+      width: 12px;
+      height: 7px;
+      border-bottom: 3px solid #22140e;
+      border-radius: 0 0 999px 999px;
+      transition: transform 0.2s ease, border-radius 0.2s ease, height 0.2s ease;
+    }
+
+    .runner-tear {
+      position: absolute;
+      top: 44px;
+      width: 5px;
+      height: 12px;
+      border-radius: 50% 50% 60% 60%;
+      background: #66d7ff;
+      opacity: 0;
+      transform: translateY(-4px);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .runner-tear-left {
+      left: 23px;
+    }
+
+    .runner-tear-right {
+      right: 23px;
+    }
+
+    .runner[data-face="happy"] .runner-mouth {
+      height: 9px;
+      border-bottom-width: 4px;
+    }
+
+    .runner[data-face="cry"] .runner-eye {
       height: 4px;
-      border-bottom: 2px solid #22140e;
-      border-radius: 0 0 10px 10px;
+      border-radius: 999px;
+    }
+
+    .runner[data-face="cry"] .runner-mouth {
+      width: 13px;
+      height: 12px;
+      border: 3px solid #22140e;
+      border-bottom-width: 3px;
+      border-radius: 50%;
+      transform: translateY(0);
+    }
+
+    .runner[data-face="cry"] .runner-tear {
+      opacity: 1;
+      transform: translateY(2px);
+    }
+
+    .runner[data-face="angry"] .runner-eye {
+      height: 6px;
+      border-radius: 2px;
+    }
+
+    .runner[data-face="angry"] .runner-eye-left {
+      transform: rotate(18deg);
+    }
+
+    .runner[data-face="angry"] .runner-eye-right {
+      transform: rotate(-18deg);
+    }
+
+    .runner[data-face="angry"] .runner-mouth {
+      border-top: 3px solid #22140e;
+      border-bottom: 0;
+      border-radius: 999px 999px 0 0;
+      transform: translateY(5px);
     }
 
     .runner-arm,
     .runner-leg {
       position: absolute;
-      background: #5a2d1b;
       transform-origin: top center;
     }
 
     .runner-arm {
-      bottom: 53px;
-      width: 7px;
-      height: 31px;
-      border-radius: 9px;
-      animation: arm-swing 0.34s ease-in-out infinite alternate;
+      bottom: 76px;
+      width: 42px;
+      height: 48px;
+      animation: arm-drive 0.36s ease-in-out infinite alternate;
     }
 
     .runner-arm-left {
-      left: 16px;
+      left: 2px;
     }
 
     .runner-arm-right {
-      right: 16px;
-      animation-delay: -0.17s;
+      right: 2px;
+      animation-delay: -0.18s;
     }
 
     .runner-leg {
       bottom: 0;
-      width: 8px;
-      height: 30px;
-      border-radius: 9px;
-      animation: leg-sprint 0.3s ease-in-out infinite alternate;
+      width: 37px;
+      height: 49px;
+      animation: leg-drive 0.32s ease-in-out infinite alternate;
     }
 
     .runner-leg-left {
-      left: 27px;
+      left: 28px;
     }
 
     .runner-leg-right {
-      right: 27px;
-      animation-delay: -0.15s;
+      right: 28px;
+      animation-delay: -0.16s;
     }
 
-    @keyframes arm-swing {
+    .limb-upper,
+    .limb-lower,
+    .runner-fist,
+    .runner-foot {
+      position: absolute;
+      display: block;
+      background: #5a2d1b;
+      box-shadow: inset -3px -3px 0 rgba(20, 9, 6, 0.22);
+    }
+
+    .limb-upper,
+    .limb-lower {
+      width: 11px;
+      border-radius: 999px;
+      transform-origin: top center;
+    }
+
+    .runner-arm .limb-upper {
+      top: 0;
+      left: 16px;
+      height: 28px;
+      transform: rotate(34deg);
+    }
+
+    .runner-arm .limb-lower {
+      top: 22px;
+      left: 25px;
+      height: 30px;
+      transform: rotate(-68deg);
+      animation: forearm-pump 0.36s ease-in-out infinite alternate;
+    }
+
+    .runner-arm-right .limb-lower {
+      animation-delay: -0.18s;
+    }
+
+    .runner-fist {
+      top: 43px;
+      left: 11px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+    }
+
+    .runner-leg .limb-upper {
+      top: 0;
+      left: 13px;
+      height: 30px;
+      transform: rotate(-34deg);
+    }
+
+    .runner-leg .limb-lower {
+      top: 25px;
+      left: 2px;
+      height: 31px;
+      transform: rotate(72deg);
+      animation: shin-kick 0.32s ease-in-out infinite alternate;
+    }
+
+    .runner-leg-right .limb-lower {
+      animation-delay: -0.16s;
+    }
+
+    .runner-foot {
+      top: 47px;
+      left: 22px;
+      width: 22px;
+      height: 9px;
+      border-radius: 999px;
+    }
+
+    @keyframes arm-drive {
       from {
+        transform: rotate(-36deg) translateY(3px);
+      }
+
+      to {
+        transform: rotate(42deg) translateY(-2px);
+      }
+    }
+
+    @keyframes forearm-pump {
+      from {
+        transform: rotate(-86deg);
+      }
+
+      to {
         transform: rotate(-34deg);
+      }
+    }
+
+    @keyframes leg-drive {
+      from {
+        transform: rotate(38deg) translateY(-2px);
+      }
+
+      to {
+        transform: rotate(-44deg) translateY(3px);
+      }
+    }
+
+    @keyframes shin-kick {
+      from {
+        transform: rotate(86deg);
       }
 
       to {
         transform: rotate(34deg);
-      }
-    }
-
-    @keyframes leg-sprint {
-      from {
-        transform: rotate(30deg);
-      }
-
-      to {
-        transform: rotate(-30deg);
       }
     }
 
@@ -353,7 +602,9 @@
       }
 
       .runner-arm,
-      .runner-leg {
+      .runner-leg,
+      .runner-arm .limb-lower,
+      .runner-leg .limb-lower {
         animation: none;
       }
     }
@@ -382,17 +633,45 @@
 </head>
 <body>
   <div class="runner-stage" aria-hidden="true">
+    <div class="giant-chestnut">
+      <div class="giant-chestnut-shell"></div>
+      <span class="giant-eye giant-eye-left"></span>
+      <span class="giant-eye giant-eye-right"></span>
+      <span class="giant-mouth"></span>
+    </div>
     <div class="wall wall-left"></div>
     <div class="wall wall-right"></div>
-    <div class="runner" id="runner">
+    <div class="runner" id="runner" data-face="happy">
       <div class="runner-head">
-        <span class="runner-face"></span>
+        <span class="runner-eye runner-eye-left"></span>
+        <span class="runner-eye runner-eye-right"></span>
+        <span class="runner-mouth"></span>
+        <span class="runner-tear runner-tear-left"></span>
+        <span class="runner-tear runner-tear-right"></span>
       </div>
-      <div class="runner-body"></div>
-      <div class="runner-arm runner-arm-left"></div>
-      <div class="runner-arm runner-arm-right"></div>
-      <div class="runner-leg runner-leg-left"></div>
-      <div class="runner-leg runner-leg-right"></div>
+      <div class="runner-body">
+        <span class="runner-abs"></span>
+      </div>
+      <div class="runner-arm runner-arm-left">
+        <span class="limb-upper"></span>
+        <span class="limb-lower"></span>
+        <span class="runner-fist"></span>
+      </div>
+      <div class="runner-arm runner-arm-right">
+        <span class="limb-upper"></span>
+        <span class="limb-lower"></span>
+        <span class="runner-fist"></span>
+      </div>
+      <div class="runner-leg runner-leg-left">
+        <span class="limb-upper"></span>
+        <span class="limb-lower"></span>
+        <span class="runner-foot"></span>
+      </div>
+      <div class="runner-leg runner-leg-right">
+        <span class="limb-upper"></span>
+        <span class="limb-lower"></span>
+        <span class="runner-foot"></span>
+      </div>
     </div>
   </div>
 
@@ -400,7 +679,7 @@
     <div class="hero">
       <p class="eyebrow">Animated Color Background</p>
       <h1>栗頭ランナー</h1>
-      <p>栗の形をした頭の人形が、壁に当たるたびに向きを変えて走り、ときどき上にジャンプします。</p>
+      <p>ムキムキの栗頭人形が、壁に当たるたびに向きを変えて全力疾走し、ときどき画面上まで大ジャンプします。</p>
     </div>
   </header>
 
@@ -412,19 +691,19 @@
           <p>画面の左右にある壁へ近づくと、栗頭の人形が向きを変えて反対側へ走っていきます。</p>
         </div>
         <div class="color-note">
-          <strong>RUN</strong>
-          <span>足と腕を振りながら、左右をずっと往復するアニメーションです。</span>
+          <strong>MAX</strong>
+          <span>腕と足に関節をつけて、曲げ伸ばししながら走っているようにしました。</span>
         </div>
       </section>
 
       <section>
-        <h2>たまにジャンプ</h2>
-        <p>走っている途中でランダムに跳び上がるので、毎回少し違う動きに見えます。</p>
+        <h2>大ジャンプ</h2>
+        <p>走っている途中でランダムに画面の上の方まで跳び上がるので、動きに勢いがあります。</p>
       </section>
 
       <section>
-        <h2>栗の人形</h2>
-        <p>頭は栗のとがった形にして、顔と小さな体をCSSだけで描いています。</p>
+        <h2>表情変化</h2>
+        <p>顔は笑ったり、泣いたり、怒ったりするように切り替わります。背景にも栗の顔を大きく入れています。</p>
       </section>
     </div>
   </main>
@@ -447,22 +726,36 @@
         nextJumpAt: performance.now() + 1200 + Math.random() * 1800
       };
 
-      const runnerWidth = 76;
+      const faces = ["happy", "cry", "angry"];
+      let faceIndex = 0;
+
+      const runnerWidth = 112;
       const sidePadding = 22;
-      const speed = 155;
-      const gravity = 1500;
-      const jumpPower = 520;
+      const speed = 190;
+      const gravity = 2400;
 
       function maxX() {
         return Math.max(sidePadding, window.innerWidth - runnerWidth - sidePadding);
       }
 
+      function jumpPower() {
+        const targetHeight = Math.max(330, window.innerHeight - 220);
+        return Math.sqrt(2 * gravity * targetHeight);
+      }
+
       function jump(now) {
         if (state.y === 0) {
-          state.velocityY = jumpPower;
-          state.nextJumpAt = now + 1300 + Math.random() * 2600;
+          state.velocityY = jumpPower();
+          state.nextJumpAt = now + 1100 + Math.random() * 2300;
         }
       }
+
+      function changeFace() {
+        faceIndex = (faceIndex + 1) % faces.length;
+        runner.dataset.face = faces[faceIndex];
+      }
+
+      setInterval(changeFace, 1800);
 
       function animate(now) {
         const delta = Math.min((now - state.lastTime) / 1000, 0.035);
