@@ -903,7 +903,7 @@
     <div class="hero">
       <p class="eyebrow">Animated Color Background</p>
       <h1>栗頭ランナー</h1>
-      <p>巨大なムキムキ栗頭人形が、画面全体をあらゆる方向へ飛び回り、端に当たるたびに跳ね返ります。</p>
+      <p>巨大なムキムキ栗頭人形が、画面全体を超高速で飛び回り、上にも斜めにもいろんな方向へ跳ね返ります。</p>
     </div>
   </header>
 
@@ -912,7 +912,7 @@
       <section class="feature">
         <div>
           <h2>全方向バウンド</h2>
-          <p>画面の上下左右すべての端に当たると、栗頭の人形が跳ね返って別の方向へ飛んでいきます。</p>
+          <p>画面の上下左右すべての端に当たると、栗頭の人形が跳ね返って別の方向へ高速で飛んでいきます。</p>
         </div>
         <div class="color-note">
           <strong>MAX</strong>
@@ -922,7 +922,7 @@
 
       <section>
         <h2>斜め飛び</h2>
-        <p>一定間隔で少しだけ角度が変わるので、画面内を同じ軌道だけでなく斜めにも飛び回ります。</p>
+        <p>一定間隔で角度が大きく変わるので、上方向や斜め方向など、いろんな方向に飛び回ります。</p>
       </section>
 
       <section>
@@ -945,8 +945,8 @@
         x: 24,
         y: 0,
         direction: 1,
-        velocityX: 250,
-        velocityY: 330,
+        velocityX: 1000,
+        velocityY: 1320,
         lastTime: performance.now(),
         nextDeflectAt: performance.now() + 1200 + Math.random() * 1800
       };
@@ -962,8 +962,8 @@
       const scaleOffset = (runnerWidth - runnerBaseWidth) / 2;
       const sidePadding = 16;
       const topPadding = 16;
-      const minSpeed = 230;
-      const maxSpeed = 430;
+      const minSpeed = 920;
+      const maxSpeed = 1720;
 
       function minX() {
         return sidePadding + scaleOffset;
@@ -987,10 +987,20 @@
         return sign * magnitude;
       }
 
+      function randomSpeed() {
+        return minSpeed + Math.random() * (maxSpeed - minSpeed);
+      }
+
+      function setVelocityFromAngle(angle, speed = randomSpeed()) {
+        state.velocityX = Math.cos(angle) * speed;
+        state.velocityY = Math.sin(angle) * speed;
+      }
+
       function deflect(now) {
-        state.velocityX = clampVelocity(state.velocityX + (Math.random() - 0.5) * 180);
-        state.velocityY = clampVelocity(state.velocityY + (Math.random() - 0.5) * 220);
-        state.nextDeflectAt = now + 900 + Math.random() * 1800;
+        const upwardAngle = Math.PI * (0.2 + Math.random() * 0.6);
+        const anyAngle = Math.random() * Math.PI * 2;
+        setVelocityFromAngle(Math.random() < 0.58 ? upwardAngle : anyAngle);
+        state.nextDeflectAt = now + 320 + Math.random() * 780;
       }
 
       function changeFace() {
@@ -1009,18 +1019,22 @@
 
         if (state.x >= maxX()) {
           state.x = maxX();
-          state.velocityX = -Math.abs(state.velocityX);
+          state.velocityX = -Math.abs(clampVelocity(state.velocityX + (Math.random() - 0.5) * 520));
+          state.velocityY = clampVelocity(state.velocityY + (Math.random() - 0.5) * 780);
         } else if (state.x <= minX()) {
           state.x = minX();
-          state.velocityX = Math.abs(state.velocityX);
+          state.velocityX = Math.abs(clampVelocity(state.velocityX + (Math.random() - 0.5) * 520));
+          state.velocityY = clampVelocity(state.velocityY + (Math.random() - 0.5) * 780);
         }
 
         if (state.y >= maxY()) {
           state.y = maxY();
-          state.velocityY = -Math.abs(state.velocityY);
+          state.velocityY = -Math.abs(clampVelocity(state.velocityY + (Math.random() - 0.5) * 620));
+          state.velocityX = clampVelocity(state.velocityX + (Math.random() - 0.5) * 820);
         } else if (state.y <= minY()) {
           state.y = minY();
-          state.velocityY = Math.abs(state.velocityY);
+          state.velocityY = Math.abs(clampVelocity(state.velocityY + (Math.random() - 0.5) * 620));
+          state.velocityX = clampVelocity(state.velocityX + (Math.random() - 0.5) * 820);
         }
 
         if (now >= state.nextDeflectAt) {
