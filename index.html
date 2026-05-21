@@ -72,11 +72,11 @@
 
     .giant-chestnut {
       position: absolute;
-      top: -120px;
-      right: min(8vw, 90px);
-      width: min(56vw, 560px);
+      top: -180px;
+      right: min(4vw, 54px);
+      width: min(78vw, 820px);
       aspect-ratio: 1;
-      opacity: 0.2;
+      opacity: 0.24;
       filter: drop-shadow(0 24px 48px rgba(16, 20, 36, 0.34));
       transform: rotate(8deg);
     }
@@ -679,7 +679,7 @@
     <div class="hero">
       <p class="eyebrow">Animated Color Background</p>
       <h1>栗頭ランナー</h1>
-      <p>ムキムキの栗頭人形が、壁に当たるたびに向きを変えて全力疾走し、ときどき画面上まで大ジャンプします。</p>
+      <p>巨大なムキムキ栗頭人形が、壁に当たるたびに向きを変えて全力疾走し、ときどき画面上まで大ジャンプします。</p>
     </div>
   </header>
 
@@ -692,7 +692,7 @@
         </div>
         <div class="color-note">
           <strong>MAX</strong>
-          <span>腕と足に関節をつけて、曲げ伸ばししながら走っているようにしました。</span>
+          <span>巨大化した体で、腕と足を曲げ伸ばししながら走っているようにしました。</span>
         </div>
       </section>
 
@@ -729,17 +729,26 @@
       const faces = ["happy", "cry", "angry"];
       let faceIndex = 0;
 
-      const runnerWidth = 112;
-      const sidePadding = 22;
-      const speed = 190;
+      const runnerBaseWidth = 112;
+      const runnerBaseHeight = 168;
+      const runnerScale = 1.75;
+      const runnerWidth = runnerBaseWidth * runnerScale;
+      const runnerHeight = runnerBaseHeight * runnerScale;
+      const scaleOffset = (runnerWidth - runnerBaseWidth) / 2;
+      const sidePadding = 16;
+      const speed = 205;
       const gravity = 2400;
 
+      function minX() {
+        return sidePadding + scaleOffset;
+      }
+
       function maxX() {
-        return Math.max(sidePadding, window.innerWidth - runnerWidth - sidePadding);
+        return Math.max(minX(), window.innerWidth - runnerBaseWidth - sidePadding - scaleOffset);
       }
 
       function jumpPower() {
-        const targetHeight = Math.max(330, window.innerHeight - 220);
+        const targetHeight = Math.max(360, window.innerHeight - runnerHeight - 36);
         return Math.sqrt(2 * gravity * targetHeight);
       }
 
@@ -766,8 +775,8 @@
         if (state.x >= maxX()) {
           state.x = maxX();
           state.direction = -1;
-        } else if (state.x <= sidePadding) {
-          state.x = sidePadding;
+        } else if (state.x <= minX()) {
+          state.x = minX();
           state.direction = 1;
         }
 
@@ -785,7 +794,7 @@
           }
         }
 
-        runner.style.transform = `translate3d(${state.x}px, ${-state.y}px, 0) scaleX(${state.direction})`;
+        runner.style.transform = `translate3d(${state.x}px, ${-state.y}px, 0) scale(${runnerScale}) scaleX(${state.direction})`;
         requestAnimationFrame(animate);
       }
 
