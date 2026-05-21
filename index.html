@@ -976,7 +976,7 @@
     <div class="hero">
       <p class="eyebrow">Animated Color Background</p>
       <h1>栗頭ランナー</h1>
-      <p>黒い背景のあちこちに栗の顔が浮かび、巨大なムキムキ栗頭人形が超高速で跳ね回ります。</p>
+      <p>黒い背景のあちこちに栗の顔が浮かび、11匹のムキムキ栗頭人形が超高速で跳ね回ります。</p>
     </div>
   </header>
 
@@ -989,7 +989,7 @@
         </div>
         <div class="color-note">
           <strong>MAX</strong>
-          <span>肩から腕までつながったムキムキの体で、腕と足を曲げ伸ばししながら走ります。</span>
+          <span>肩から腕までつながったムキムキ栗君たちが、腕と足を曲げ伸ばししながら走ります。</span>
         </div>
       </section>
 
@@ -1010,47 +1010,69 @@
   </footer>
 
   <script>
+    const stage = document.querySelector(".runner-stage");
     const runner = document.getElementById("runner");
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-    if (runner && !reduceMotion.matches) {
-      const state = {
-        x: 24,
-        y: 0,
-        direction: 1,
-        velocityX: 1000,
-        velocityY: 1320,
-        lastTime: performance.now(),
-        nextDeflectAt: performance.now() + 1200 + Math.random() * 1800
-      };
-
+    if (stage && runner && !reduceMotion.matches) {
       const faces = ["happy", "cry", "angry"];
-      let faceIndex = 0;
-
       const runnerBaseWidth = 112;
       const runnerBaseHeight = 168;
-      const runnerScale = 1.75;
-      const runnerWidth = runnerBaseWidth * runnerScale;
-      const runnerHeight = runnerBaseHeight * runnerScale;
-      const scaleOffset = (runnerWidth - runnerBaseWidth) / 2;
       const sidePadding = 16;
       const topPadding = 16;
       const minSpeed = 920;
       const maxSpeed = 1720;
+      const runnerCount = 11;
+      const actors = [createActor(runner, 0)];
 
-      function minX() {
-        return sidePadding + scaleOffset;
+      for (let i = 1; i < runnerCount; i += 1) {
+        const clone = runner.cloneNode(true);
+        clone.removeAttribute("id");
+        clone.dataset.face = faces[i % faces.length];
+        stage.appendChild(clone);
+        actors.push(createActor(clone, i));
       }
 
-      function maxX() {
-        return Math.max(minX(), window.innerWidth - runnerBaseWidth - sidePadding - scaleOffset);
+      function createActor(element, index) {
+        const scale = index === 0 ? 1.75 : 0.82 + Math.random() * 0.78;
+        const runnerWidth = runnerBaseWidth * scale;
+        const scaleOffset = (runnerWidth - runnerBaseWidth) / 2;
+        const speed = randomSpeed();
+        const angle = Math.random() * Math.PI * 2;
+        const actor = {
+          element,
+          scale,
+          scaleOffset,
+          x: 0,
+          y: 0,
+          direction: 1,
+          velocityX: Math.cos(angle) * speed,
+          velocityY: Math.sin(angle) * speed,
+          faceIndex: index % faces.length,
+          lastTime: performance.now(),
+          nextDeflectAt: performance.now() + 180 + Math.random() * 950,
+          nextFaceAt: performance.now() + 500 + Math.random() * 1800
+        };
+
+        actor.x = minX(actor) + Math.random() * (maxX(actor) - minX(actor));
+        actor.y = Math.random() * maxY(actor);
+        return actor;
+      }
+
+      function minX(actor) {
+        return sidePadding + actor.scaleOffset;
+      }
+
+      function maxX(actor) {
+        return Math.max(minX(actor), window.innerWidth - runnerBaseWidth - sidePadding - actor.scaleOffset);
       }
 
       function minY() {
         return 0;
       }
 
-      function maxY() {
+      function maxY(actor) {
+        const runnerHeight = runnerBaseHeight * actor.scale;
         return Math.max(minY(), window.innerHeight - runnerHeight - topPadding);
       }
 
@@ -1064,58 +1086,64 @@
         return minSpeed + Math.random() * (maxSpeed - minSpeed);
       }
 
-      function setVelocityFromAngle(angle, speed = randomSpeed()) {
-        state.velocityX = Math.cos(angle) * speed;
-        state.velocityY = Math.sin(angle) * speed;
+      function setVelocityFromAngle(actor, angle, speed = randomSpeed()) {
+        actor.velocityX = Math.cos(angle) * speed;
+        actor.velocityY = Math.sin(angle) * speed;
       }
 
-      function deflect(now) {
+      function deflect(actor, now) {
         const upwardAngle = Math.PI * (0.2 + Math.random() * 0.6);
         const anyAngle = Math.random() * Math.PI * 2;
-        setVelocityFromAngle(Math.random() < 0.58 ? upwardAngle : anyAngle);
-        state.nextDeflectAt = now + 320 + Math.random() * 780;
+        setVelocityFromAngle(actor, Math.random() < 0.58 ? upwardAngle : anyAngle);
+        actor.nextDeflectAt = now + 320 + Math.random() * 780;
       }
 
-      function changeFace() {
-        faceIndex = (faceIndex + 1) % faces.length;
-        runner.dataset.face = faces[faceIndex];
+      function changeFace(actor, now) {
+        actor.faceIndex = (actor.faceIndex + 1) % faces.length;
+        actor.element.dataset.face = faces[actor.faceIndex];
+        actor.nextFaceAt = now + 900 + Math.random() * 1800;
       }
-
-      setInterval(changeFace, 1800);
 
       function animate(now) {
-        const delta = Math.min((now - state.lastTime) / 1000, 0.035);
-        state.lastTime = now;
+        actors.forEach((actor) => {
+          const delta = Math.min((now - actor.lastTime) / 1000, 0.035);
+          actor.lastTime = now;
 
-        state.x += state.velocityX * delta;
-        state.y += state.velocityY * delta;
+          actor.x += actor.velocityX * delta;
+          actor.y += actor.velocityY * delta;
 
-        if (state.x >= maxX()) {
-          state.x = maxX();
-          state.velocityX = -Math.abs(clampVelocity(state.velocityX + (Math.random() - 0.5) * 520));
-          state.velocityY = clampVelocity(state.velocityY + (Math.random() - 0.5) * 780);
-        } else if (state.x <= minX()) {
-          state.x = minX();
-          state.velocityX = Math.abs(clampVelocity(state.velocityX + (Math.random() - 0.5) * 520));
-          state.velocityY = clampVelocity(state.velocityY + (Math.random() - 0.5) * 780);
-        }
+          if (actor.x >= maxX(actor)) {
+            actor.x = maxX(actor);
+            actor.velocityX = -Math.abs(clampVelocity(actor.velocityX + (Math.random() - 0.5) * 520));
+            actor.velocityY = clampVelocity(actor.velocityY + (Math.random() - 0.5) * 780);
+          } else if (actor.x <= minX(actor)) {
+            actor.x = minX(actor);
+            actor.velocityX = Math.abs(clampVelocity(actor.velocityX + (Math.random() - 0.5) * 520));
+            actor.velocityY = clampVelocity(actor.velocityY + (Math.random() - 0.5) * 780);
+          }
 
-        if (state.y >= maxY()) {
-          state.y = maxY();
-          state.velocityY = -Math.abs(clampVelocity(state.velocityY + (Math.random() - 0.5) * 620));
-          state.velocityX = clampVelocity(state.velocityX + (Math.random() - 0.5) * 820);
-        } else if (state.y <= minY()) {
-          state.y = minY();
-          state.velocityY = Math.abs(clampVelocity(state.velocityY + (Math.random() - 0.5) * 620));
-          state.velocityX = clampVelocity(state.velocityX + (Math.random() - 0.5) * 820);
-        }
+          if (actor.y >= maxY(actor)) {
+            actor.y = maxY(actor);
+            actor.velocityY = -Math.abs(clampVelocity(actor.velocityY + (Math.random() - 0.5) * 620));
+            actor.velocityX = clampVelocity(actor.velocityX + (Math.random() - 0.5) * 820);
+          } else if (actor.y <= minY()) {
+            actor.y = minY();
+            actor.velocityY = Math.abs(clampVelocity(actor.velocityY + (Math.random() - 0.5) * 620));
+            actor.velocityX = clampVelocity(actor.velocityX + (Math.random() - 0.5) * 820);
+          }
 
-        if (now >= state.nextDeflectAt) {
-          deflect(now);
-        }
+          if (now >= actor.nextDeflectAt) {
+            deflect(actor, now);
+          }
 
-        state.direction = state.velocityX < 0 ? -1 : 1;
-        runner.style.transform = `translate3d(${state.x}px, ${-state.y}px, 0) scale(${runnerScale}) scaleX(${state.direction})`;
+          if (now >= actor.nextFaceAt) {
+            changeFace(actor, now);
+          }
+
+          actor.direction = actor.velocityX < 0 ? -1 : 1;
+          actor.element.style.transform = `translate3d(${actor.x}px, ${-actor.y}px, 0) scale(${actor.scale}) scaleX(${actor.direction})`;
+        });
+
         requestAnimationFrame(animate);
       }
 
